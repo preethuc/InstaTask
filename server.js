@@ -8,7 +8,7 @@ mongoose.connection
   })
   .on('error', (error) => {
     console.log('error is:', error);
-  });                                      
+  });                           
 
 //Unhandled promise rejection--error outside express
 //without connecting MongoDB

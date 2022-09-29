@@ -3,10 +3,9 @@ const router = express.Router();
 const profileController = require("../Controllers/profileController");
 
 //ROUTES
-router.route("/create").post(profileController.createProfile);
+router.route("/createProfile").post(profileController.createProfile);
 
-// router.route("/all").get(profileController.getAllPro);
-router.route("/edit").put(profileController.editProById)
-
+router.route("/allPro").get(profileController.getProfile);
+router.route("/edit").put(profileController.editProById);
 
 module.exports = router;

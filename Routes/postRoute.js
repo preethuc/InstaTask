@@ -5,7 +5,7 @@ const postController = require("../Controllers/postController");
 //ROUTES
 router.route("/createPost").post(postController.createPost);
 
-router.route("/all").get(postController.getAllPost);
+router.route("/allPost").get(postController.getAllPost);
 
 
 

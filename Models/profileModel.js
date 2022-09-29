@@ -15,14 +15,14 @@ const profileSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    //   default: false,
+      default: false,
     },
   ],
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    //   default: false,
+      default: false,
     },
   ],
   bio: {

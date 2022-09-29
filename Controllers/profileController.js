@@ -5,14 +5,14 @@ const catchAsync = require("../utils/catchAsync");
 
 //create profile after login
 exports.createProfile = catchAsync(async (req, res, next) => {
-  const newProfile = await Profile.create(req.body);
+  const newProfile = await Profile.create(req.body)
   res.status(201).json({
     status: "success",
     data: {
       profile: newProfile,
     },
   });
-});
+}); 
 
 exports.editProById = catchAsync(async (req, res, next) => {
   const profile = await Profile.findByIdAndUpdate(req.params.id, req.body, {
@@ -27,8 +27,13 @@ exports.editProById = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getProfile = catchAsync(async (req, res, next) => {
-//     const profile = await Profile.find().populate("followers")
-    
+exports.getProfile = catchAsync(async (req, res, next) => {
+    const profile = await Profile.find().populate("followers","_id").populate("following","_id")
+    res.status(200).json({
+        status: 'success',
+        results: profile.length,
+        data:profile
+        
+    })
 
-// })
+})

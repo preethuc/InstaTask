@@ -12,12 +12,11 @@ exports.createPost = catchAsync(async (req, res, next) => {
     });
 })
 exports.getAllPost = catchAsync(async (req, res, next) => {
-    const post = await Post.find()
+    const post = await Post.find().populate("user","_id")
     res.status(200).json({
         status: 'success',
         results: post.length,
-        data: {
-          post,
-        },
+        data:post
+        
     })
 })
