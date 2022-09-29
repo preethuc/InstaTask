@@ -1,7 +1,7 @@
+
 const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
-
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -27,18 +27,17 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     unique: true,
-    required: [true, 'User must have a password'],
-    unique: [true, 'User must have unique password'],
-    minLength: 8
+    required: [true, "User must have a password"],
+    unique: [true, "User must have unique password"],
+    minLength: 8,
   },
   active: {
     type: Boolean,
     default: true,
     select: false,
-    },
-   
-//   timestamps: true
-  
+  },
+
+  //   timestamps: true
 });
 // //Hash password
 // userSchema.pre('save', async function (next) {
