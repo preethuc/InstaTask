@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const validator = require("validator");
 // const bcrypt = require('bcryptjs');
@@ -8,6 +7,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
     // unique: true,
+  },
+  bio: {
+    type: String,
   },
   email: {
     type: String,
@@ -36,6 +38,23 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  accountType: {
+    type: String,
+    default:'Public'
+},
+
+  followersList: [
+    {
+      followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }]
+    },
+  ],
 
   //   timestamps: true
 });

@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const app = express();
 
 const userRoute = require("./Routes/userRoute");
-const profileRoute = require("./Routes/profileRoute");
 const postRoute = require("./Routes/postRoute");
 
 
