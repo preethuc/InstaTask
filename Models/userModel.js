@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
     require: true,
     // unique: true,
   },
+  fullName: {
+    type: String,
+    required: true,
+    //own validators
+    // validate: [validator.isAlpha, "User name must only contains alphabets"],
+  },
   bio: {
     type: String,
   },
@@ -19,12 +25,6 @@ const userSchema = new mongoose.Schema({
   },
   mobileNumber: {
     type: Number,
-  },
-  fullName: {
-    type: String,
-    required: true,
-    //own validators
-    // validate: [validator.isAlpha, "User name must only contains alphabets"],
   },
   password: {
     type: String,
@@ -40,19 +40,19 @@ const userSchema = new mongoose.Schema({
   },
   accountType: {
     type: String,
-    default:'Public'
-},
+    default: "Public",
+  },
 
-  followersList: [
+  followers: [
     {
-      followers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }],
-    following: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
-    }]
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   ],
 

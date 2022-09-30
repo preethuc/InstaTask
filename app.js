@@ -6,7 +6,6 @@ const app = express();
 const userRoute = require("./Routes/userRoute");
 const postRoute = require("./Routes/postRoute");
 
-
 //MIDDLEWARE
 app.use(morgan("dev"));
 app.use(express.json());
@@ -16,9 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/insta", userRoute,postRoute,profileRoute);
-// app.use("/api/insta", profileRoute);
-// app.use("/api/insta", postRoute);
+app.use("/api/insta", userRoute,postRoute);
 
 
 // //error handling function
