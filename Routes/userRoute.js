@@ -11,7 +11,9 @@ router.route("/activateacc").post(authController.activateAccount);
 router.route("/all").get(userController.getAllUser);
 router.route("/usercreate").post(userController.createUser);
 router.route("/remove/:id").delete(userController.removeUserById);
-router.route("/list/:id").put(userController.updateFollowingById);
+router.route("/followingList/:id").put(userController.updateFollowingById);
+router.route("/followersList/:id").put(userController.updateFollowersById);
+
 
 
 module.exports = router;
