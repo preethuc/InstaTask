@@ -16,7 +16,9 @@ exports.createUser = catchAsync(async (req, res, next) => {
 
 //get Users
 exports.getAllUser = catchAsync(async (req, res, next) => {
-  const users = await User.find().populate("following", "userName").populate("followers","userName");
+  const users = await User.find()
+    .populate("following", "userName")
+    .populate("followers", "userName");
   // const users = await User.find()
   res.status(200).json({
     status: "success",
@@ -42,7 +44,7 @@ exports.updateFollowingById = catchAsync(async (req, res, next) => {
   User.findById(req.body.following).then(async (response) => {
     let followingArray = response.following;
     // console.log('the following array with followingID: ', followingArray);
-    followingArray.push(req.body.following)
+    followingArray.push(req.body.following);
     // console.log('the following array after push', followingArray);
     User.findByIdAndUpdate(
       req.params.id,
@@ -53,7 +55,7 @@ exports.updateFollowingById = catchAsync(async (req, res, next) => {
         status: "success",
         data: {
           message: "updated",
-          updatedData:resolve
+          updatedData: resolve,
         },
       });
       // console.log('the updated data from findbyidANDupdate: ', resolve);
@@ -63,24 +65,36 @@ exports.updateFollowingById = catchAsync(async (req, res, next) => {
 
 //put followers by User by id
 exports.updateFollowersById = catchAsync(async (req, res, next) => {
-  User.findById(req.body.followers).then(async (response) => {
-    let followersData = response.followers;
-    followersData.push(req.body.followers);
+  try {
+    const user_id = req.params.user_id;
+    const user = await User.findById(user_id).exec();
+    let followers = user.followers;
 
-    // console.log(req.params.id);
-    User.findByIdAndUpdate(
-      req.params.id,
-      { followers: followersData },
-      { new: true }
-    ).then((resolve) => {
-      console.log(resolve);
-      res.status(200).json({
-        status: "success",
-        data: {
-          message: "updated",
-          updatedData:resolve
-        },
-      });
-    });
-  });
+    if (user) {
+      followers.push(req.body.follower);
+      User.findByIdAndUpdate(
+        user_id,
+        { followers: followers },
+        { new: true },
+        function (err, docs) {
+          if (err) {
+            console.log(err);
+            return res.json({
+              success: true,
+              message: err.message,
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "Follower Added successfully",
+              user: docs,
+            });
+          }
+        }
+      );
+    }
+  } catch (e) {
+    console.log(e);
+    return res.json({ success: false, message: e.message });
+  }
 });
