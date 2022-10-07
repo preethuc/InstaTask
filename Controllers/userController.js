@@ -41,37 +41,53 @@ exports.removeUserById = catchAsync(async (req, res, next) => {
 });
 //put following by User by id
 exports.updateFollowingById = catchAsync(async (req, res, next) => {
-  User.findById(req.body.following).then(async (response) => {
-    let followingArray = response.following;
-    // console.log('the following array with followingID: ', followingArray);
-    followingArray.push(req.body.following);
-    // console.log('the following array after push', followingArray);
-    User.findByIdAndUpdate(
-      req.params.id,
-      { following: followingArray },
-      { new: true }
-    ).then((resolve) => {
-      res.status(200).json({
-        status: "success",
-        data: {
-          message: "updated",
-          updatedData: resolve,
-        },
-      });
-      // console.log('the updated data from findbyidANDupdate: ', resolve);
-    });
-  });
-});
+
+  try {
+    const user_id = req.params.user_id;
+    const user = await User.findById(user_id).exec();
+    let following = user.following;
+    if (user) {
+      following.push(req.body.following);
+      User.findByIdAndUpdate(
+        user_id,
+        { following: following },
+        { new: true },
+        function (err, docs) {
+          if (err) {
+            console.log(err);
+            return res.json({
+              success: true,
+              message: err.message,
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "Following Added successfully",
+              user: docs,
+            });
+          }
+        }
+      );
+    }
+  }
+  catch(e) { 
+    console.log(e);
+    return res.json({ success: false, message: e.message });
+  }
+})
 
 //put followers by User by id
 exports.updateFollowersById = catchAsync(async (req, res, next) => {
   try {
-    const user_id = req.params.user_id;
+    const user_id = req.params.id;
     const user = await User.findById(user_id).exec();
+    console.log(user);
     let followers = user.followers;
+    console.log(followers);
 
     if (user) {
-      followers.push(req.body.follower);
+      followers.push(req.body.followers);
+      console.log(followers);
       User.findByIdAndUpdate(
         user_id,
         { followers: followers },
