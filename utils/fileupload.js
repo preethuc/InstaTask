@@ -1,16 +1,25 @@
-const express = require('express');
-const multer = require('multer');
- 
+const express = require("express");
+const multer = require("multer");
+const Post = require('../Models/postModel')
+
 const fileStorageEngine = multer.diskStorage({
-    destination: (req,file,cb) => {
-        cb(null,'./images');    
-    },
-    filename: (req,file,cb) => {
-        cb(null ,  file.originalname);   
-    }
+  destination: (req, file, cb) => {
+    cb(null, "./images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
 });
 
 const upload = multer({ storage: fileStorageEngine });
+
+exports.createPhoto = catchAsync(
+  async(upload.array("images", 2)),
+  (req, res) => {
+    console.log(req.files);
+    res.send("multiple file upload success");
+  }
+);
 
 // Route
 // single image
@@ -25,4 +34,4 @@ const upload = multer({ storage: fileStorageEngine });
 //     res.send('multiple file upload success')
 // })
 
-module.exports = upload
+// module.exports = upload;

@@ -15,10 +15,10 @@ exports.createPost = catchAsync(async(req, res, next) => {
   });
 });
 
-exports.createPhoto = catchAsync(async(upload.array('images',2 )),(req,res)=>{
-      console.log(req.files);
-      res.send('multiple file upload success')
-  })
+// exports.createPhoto = catchAsync(async(upload.array('images',2 )),(req,res)=>{
+//       console.log(req.files);
+//       res.send('multiple file upload success')
+//   })
   
 // exports.postPhoto = catchAsync(async(upload.array('images', 2)), (req, res, next) => { 
 //   await fileUpload({
