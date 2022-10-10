@@ -10,7 +10,8 @@ const postSchema = new mongoose.Schema({
     type: String,
   },
   image: {
-    Array,
+    type: String,
+    require: true,
   },
   commentAndLike: [
     {
