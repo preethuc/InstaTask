@@ -1,5 +1,4 @@
 const User = require("../Models/userModel");
-// const Profile = require("../Models/profileModel");
 const Otp = require("../Models/otpModel");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");

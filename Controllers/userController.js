@@ -1,8 +1,7 @@
 const User = require("../Models/userModel");
 const catchAsync = require("../utils/catchAsync");
-// const AppError = require("../utils/AppError");
 
-//create User
+//POST - CREATING USER
 exports.createUser = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
   res.status(201).json({
@@ -14,7 +13,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
   });
 });
 
-//get Users
+//GET - ALL USERS
 exports.getAllUser = catchAsync(async (req, res, next) => {
   const users = await User.find()
     .populate("following", "userName")
@@ -29,19 +28,8 @@ exports.getAllUser = catchAsync(async (req, res, next) => {
   });
 });
 
-//delete user
-exports.removeUserById = catchAsync(async (req, res, next) => {
-  const users = await User.findByIdAndDelete(req.params.id);
-
-  res.status(200).json({
-    status: "success",
-    // data: null,
-    message: "deleted",
-  });
-});
-//put following by User by id
-exports.updateFollowingById = catchAsync(async (req, res, next) => {
-
+// PUT - FOLLOWING BY USER BY ID
+exports.updateFollowingById = async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const user = await User.findById(user_id).exec();
@@ -69,15 +57,14 @@ exports.updateFollowingById = catchAsync(async (req, res, next) => {
         }
       );
     }
-  }
-  catch(e) { 
+  } catch (e) {
     console.log(e);
     return res.json({ success: false, message: e.message });
   }
-})
+};
 
-//put followers by User by id
-exports.updateFollowersById = catchAsync(async (req, res, next) => {
+// PUT - FOLLOWERS BY USER BY ID
+exports.updateFollowersById = async (req, res, next) => {
   try {
     const user_id = req.params.id;
     const user = await User.findById(user_id).exec();
@@ -113,4 +100,14 @@ exports.updateFollowersById = catchAsync(async (req, res, next) => {
     console.log(e);
     return res.json({ success: false, message: e.message });
   }
+};
+
+//DELETE - USER BY ID
+exports.removeUserById = catchAsync(async (req, res, next) => {
+  const users = await User.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({
+    status: "success",
+    message: "deleted",
+  });
 });

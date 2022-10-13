@@ -1,46 +1,8 @@
 const Post = require("../Models/postModel");
 const LikeAndComment = require("../Models/likecommentModel");
 const catchAsync = require("../utils/catchAsync");
-const User = require("../Models/userModel");
-// const multer = require("multer");
 
-// const fileStorageEngine = multer.diskStorage({
-//   destination: (req, file, cb) => {
-
-//     cb(null, "./uploads/");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   },
-// });
-// const upload = multer({ storage: fileStorageEngine });
-// // const upload = multer({dest:'uploads/'})
-
-// exports.createPost =
-//   (upload.single("image"),
-//   async (req, res, next) => {
-//     const newPost = await Post.create(req.body);
-//     console.log(req.file);
-//     // res.send('file uploaded successfully')
-//     res.status(201).json({
-//       status: "success",
-//       data: {
-//         post: newPost,
-//       },
-//     });
-    // const post = new Post({
-    //   user: req.body.user,
-    //   caption: req.body.caption,
-    //   postName: req.body.postName,
-    // });
-    // res.status(201).json({
-    //     status: "success",
-    //     data: {
-    //       post
-    //     },
-    //   });
-  //});
-
+//GET ALL THE POST
 exports.getAllPost = catchAsync(async (req, res, next) => {
   const post = await Post.find()
     .populate("user", "userName")
@@ -52,6 +14,8 @@ exports.getAllPost = catchAsync(async (req, res, next) => {
     data: post,
   });
 });
+
+//POST - COMMENT AND LIKE
 exports.postCommentAndLike = catchAsync(async (req, res, next) => {
   const newMessage = await LikeAndComment.create(req.body);
   res.status(201).json({
@@ -61,6 +25,8 @@ exports.postCommentAndLike = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+//GET - LIKE AND COMMENT
 exports.getLikeAndComment = catchAsync(async (req, res, next) => {
   const message = await LikeAndComment.find()
     .populate("user_id", "userName")
@@ -71,7 +37,7 @@ exports.getLikeAndComment = catchAsync(async (req, res, next) => {
     CommentAndLike: message,
   });
 });
-//put comment and like by id
+//PUT - LIKE AND COMMENT
 exports.updateLikeAndComment = catchAsync(async (req, res, next) => {
   const post = await Post.findById(req.params.id).exec();
   console.log(post);
@@ -104,44 +70,3 @@ exports.updateLikeAndComment = catchAsync(async (req, res, next) => {
   }
 });
 
-// exports.createComment = catchAsync(async (req, res, next) => {
-//   const newComment = await Comment.create(req.body);
-//   res.status(201).json({
-//     status: "success",
-//     data: {
-//       comment: newComment,
-//     },
-//   });
-// });
-
-// exports.getcomment = catchAsync(async (req, res, next) => {
-//   const comment = await Comment.find()
-//     .populate("user_id", "userName")
-//     .populate("post_id", "postName");
-//   res.status(200).json({
-//     status: "success",
-//     results: comment.length,
-//     comment: comment,
-//   });
-// });
-
-// exports.postLike = catchAsync(async (req, res, next) => {
-//   const newLike = await Like.create(req.body);
-//   res.status(201).json({
-//     status: "success",
-//     data: {
-//       like: newLike,
-//     },
-//   });
-// });
-
-// exports.getLike = catchAsync(async (req, res, next) => {
-//   const like = await Like.find()
-//     .populate("user_id", "userName")
-//     .populate("post_id", "postName");
-//   res.status(200).json({
-//     status: "success",
-//     results: like.length,
-//     likes: like,
-//   });
-// });
