@@ -34,6 +34,7 @@ exports.updateFollowingById = async (req, res, next) => {
     const user_id = req.params.user_id;
     const user = await User.findById(user_id).exec();
     let following = user.following;
+    console.log(user);
     if (user) {
       following.push(req.body.following);
       User.findByIdAndUpdate(
@@ -59,7 +60,7 @@ exports.updateFollowingById = async (req, res, next) => {
     }
   } catch (e) {
     console.log(e);
-    return res.json({ success: false, message: e.message });
+    return res.json({ status: false, message: e.message });
   }
 };
 
@@ -98,7 +99,7 @@ exports.updateFollowersById = async (req, res, next) => {
     }
   } catch (e) {
     console.log(e);
-    return res.json({ success: false, message: e.message });
+    return res.json({ status: false, message: e.message });
   }
 };
 

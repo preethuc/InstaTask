@@ -4,14 +4,11 @@ const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 const sendEmail = require("../utils/sendEmail");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
 
 //signup
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
-  // const token = jwt.sign({ id: newUser._id }, "secretkey");
 
+  const newUser = await User.create(req.body);
   let otpForEmailVerification = parseInt(Math.random() * 1000000);
   console.log(otpForEmailVerification);
   console.log(typeof otpForEmailVerification);
@@ -32,7 +29,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     res.status(201).json({
       status: "success",
       message: "successfully Executed",
-      // token,
+     
       data: {
         user: newUser,
       },
@@ -62,6 +59,7 @@ exports.activateAccount = catchAsync(async (req, res, next) => {
     data: checkOtpIsValid,
   });
 });
+
 //post-activate
 exports.activate = catchAsync(async (req, res, next) => {
   const isEmailVerified = await Otp.findOne({
@@ -103,17 +101,4 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 });
 
-//GET - Authorization using passport
-// app.get(
-//   "/auth",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     return res.status(200).json({
-//       status: "success",
-//       message: "Authorization success",
-//       user: {
-//         id: req.user._id,
-//         userName: req.user.userName,
-//       },
-//     });
-//   })
+

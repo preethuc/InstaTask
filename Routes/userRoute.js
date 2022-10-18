@@ -14,5 +14,4 @@ router.route("/remove/:id").delete(userController.removeUserById);
 router.route("/followingList/:id").put(userController.updateFollowingById);
 router.route("/followersList/:id").put(userController.updateFollowersById);
 
-
 module.exports = router;
